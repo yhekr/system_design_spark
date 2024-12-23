@@ -1,0 +1,37 @@
+[
+  {
+    "driver_id": "driver_001",
+    "driver_name": "John Doe",
+    "car_model": "Toyota",
+    "car_submodel": "Camry",
+    "car_registration_number": "AB123CD"
+  },
+  {
+    "driver_id": "driver_002",
+    "driver_name": "Jane Smith",
+    "car_model": "Ford",
+    "car_submodel": "Focus",
+    "car_registration_number": "CD456EF"
+  },
+  {
+    "driver_id": "driver_003",
+    "driver_name": "Mike Johnson",
+    "car_model": "Tesla",
+    "car_submodel": "Model 3",
+    "car_registration_number": "EF789GH"
+  },
+  {
+    "driver_id": "driver_004",
+    "driver_name": "Emily Davis",
+    "car_model": "Honda",
+    "car_submodel": "Civic",
+    "car_registration_number": "GH012IJ"
+  },
+  {
+    "driver_id": "driver_005",
+    "driver_name": "Chris Wilson",
+    "car_model": "BMW",
+    "car_submodel": "X5",
+    "car_registration_number": "IJ345KL"
+  }
+]

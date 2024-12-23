@@ -1,0 +1,47 @@
+[
+  {
+    "event_type": "created",
+    "msk_event_dttm": "2024-01-01T12:00:00",
+    "puid": "user_001",
+    "device_id": "device_123",
+    "driver_id": "driver_001",
+    "car_registration_number": "AB123CD",
+    "cost_lcl": 1000.0,
+    "currency": "RUB",
+    "city_id": "1",
+    "city_name": "Moscow",
+    "country_id": "RU",
+    "country_name": "Russia",
+    "ab_flags": "flag_1"
+  },
+  {
+    "event_type": "assigned",
+    "msk_event_dttm": "2024-01-01T12:05:00",
+    "puid": "user_002",
+    "device_id": "device_124",
+    "driver_id": "driver_002",
+    "car_registration_number": "CD456EF",
+    "cost_lcl": 500.0,
+    "currency": "USD",
+    "city_id": "2",
+    "city_name": "New York",
+    "country_id": "US",
+    "country_name": "United States",
+    "ab_flags": "flag_2"
+  },
+  {
+    "event_type": "completed",
+    "msk_event_dttm": "2024-01-01T12:10:00",
+    "puid": "user_003",
+    "device_id": "device_125",
+    "driver_id": "driver_003",
+    "car_registration_number": "EF789GH",
+    "cost_lcl": 750.0,
+    "currency": "EUR",
+    "city_id": "3",
+    "city_name": "Berlin",
+    "country_id": "DE",
+    "country_name": "Germany",
+    "ab_flags": "flag_3"
+  }
+]
