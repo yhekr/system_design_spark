@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  airflow-common:
+    build:
+      context: .
+      dockerfile: ./airflow_services/Dockerfile
+    image: airflow_custom
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./postgres/Dockerfile
+    image: postgres_custom
+  
+  redis:
+    build:
+      context: .
+      dockerfile: ./redis/Dockerfile
+    image: redis:7.0.10

@@ -1,4 +1,5 @@
 raw/*
+*.pyc
 
 ods/drivers/1d/*
 ods/users/1d/*
@@ -10,3 +11,5 @@ dds/fct_orders_act/1d/*
 
 cdm/dm_order/*
 cdm/dm_user/*
+
+airflow_services/logs/**
