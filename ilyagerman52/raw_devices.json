@@ -1,0 +1,27 @@
+[
+  {
+    "device_id": "device_123",
+    "platform_name": "Android",
+    "model": "Samsung Galaxy S21"
+  },
+  {
+    "device_id": "device_124",
+    "platform_name": "iOS",
+    "model": "iPhone 13 Pro"
+  },
+  {
+    "device_id": "device_125",
+    "platform_name": "Android",
+    "model": "Google Pixel 6"
+  },
+  {
+    "device_id": "device_126",
+    "platform_name": "iOS",
+    "model": "iPhone SE"
+  },
+  {
+    "device_id": "device_127",
+    "platform_name": "Android",
+    "model": "Xiaomi Mi 11"
+  }
+]
