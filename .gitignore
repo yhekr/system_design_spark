@@ -1,0 +1,10 @@
+raw/*
+
+ods/drivers/1d/*
+ods/users/1d/*
+ods/events/1d/*
+
+dds/drivers_hist/*
+dds/users_hist/*
+
+cdm/

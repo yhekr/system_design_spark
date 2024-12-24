@@ -1,17 +1,11 @@
 [
   {
-    "puid": "user_001"
-  },
-  {
-    "puid": "user_002"
-  },
-  {
-    "puid": "user_003"
-  },
-  {
-    "puid": "user_004"
-  },
-  {
-    "puid": "user_005"
+    "id": 124,
+    "info": {
+      "first_name": "name",
+      "last_name": "last_name",
+      "age": 12
+    },
+    "iso_eventtime": "2024-12-18T13:45:55"
   }
 ]

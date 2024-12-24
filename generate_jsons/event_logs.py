@@ -28,7 +28,11 @@ def generate_orders(n):
                     "id": order_id,
                     "cost": 100.0,
                     "currency": "RUB",
-                    "region_id": region_id
+                    "region_id": region_id,
+                    "cancel": {
+                        "reason": None,
+                        "is_driver_cancellation": None
+                    }
                 },
                 "driver_id": None,
                 "device_id": device_id
@@ -88,7 +92,11 @@ def generate_orders(n):
                         "id": order_id,
                         "cost": 100.0,
                         "currency": "RUB",
-                        "region_id": region_id
+                        "region_id": region_id,
+                        "cancel": {
+                            "reason": None,
+                            "is_driver_cancellation": None
+                        }
                     },
                     "driver_id": driver_id,
                     "device_id": device_id
@@ -150,6 +158,10 @@ def generate_orders(n):
                             "cost": 100.0,
                             "currency": "RUB",
                             "region_id": region_id,
+                            "cancel": {
+                                "reason": None,
+                                "is_driver_cancellation": None
+                            }
                         },
                         "driver_id": driver_id,
                         "device_id": device_id
@@ -211,6 +223,10 @@ def generate_orders(n):
                                 "cost": 100.0,
                                 "currency": "RUB",
                                 "region_id": region_id,
+                                "cancel": {
+                                    "reason": None,
+                                    "is_driver_cancellation": None
+                                }
                             },
                             "driver_id": driver_id,
                             "device_id": device_id
@@ -220,11 +236,11 @@ def generate_orders(n):
 
 
 orders = [order for order in generate_orders(100)]
-with open('system_design_spark/logs/new_logs.json', 'w') as logs_file:
+with open('system_design_spark/raw/event_log.json', 'w') as logs_file:
     str = json.dumps(orders)
     print(str, file=logs_file)
 
-with open('system_design_spark/logs/new_logs.json', 'r') as logs_file:
-    print(json.load(logs_file))
+# with open('system_design_spark/raw/event_log.json', 'r') as logs_file:
+#     print(json.load(logs_file))
 
 
