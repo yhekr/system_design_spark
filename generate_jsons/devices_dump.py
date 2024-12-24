@@ -1,6 +1,6 @@
 import json
 import random
-from datetime import datetime, timedelta
+from datetime import datetime
 
 PLATFORMS = [
     'iOS',
@@ -33,6 +33,3 @@ devices = [device for device in generate_devices(100)]
 with open('data/raw/devices_dump.json', 'w') as logs_file:
     str = json.dumps(devices)
     print(str, file=logs_file)
-
-# with open('data/raw/users_dump.json', 'r') as logs_file:
-#     print(json.load(logs_file))
