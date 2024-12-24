@@ -6,5 +6,7 @@ ods/events/1d/*
 
 dds/drivers_hist/*
 dds/users_hist/*
+dds/fct_orders_act/1d/*
 
-cdm/
+cdm/dm_order/*
+cdm/dm_user/*

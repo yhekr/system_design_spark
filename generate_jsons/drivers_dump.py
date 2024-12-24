@@ -14,7 +14,7 @@ DRIVERS = [
 def generate_drivers(n):
     date = "2024-12-18"
     for i in range(1, n + 1):
-        driver_id = f"o{i}"
+        driver_id = f"d{i}"
 
         age = random.randint(12, 80)
         last_name, first_name = random.choice(DRIVERS).split()
@@ -32,9 +32,9 @@ def generate_drivers(n):
         }
 
 drivers = [driver for driver in generate_drivers(100)]
-with open('system_design_spark/raw/drivers_dump.json', 'w') as logs_file:
+with open('data/raw/drivers_dump.json', 'w') as logs_file:
     str = json.dumps(drivers)
     print(str, file=logs_file)
 
-with open('system_design_spark/raw/drivers_dump.json', 'r') as logs_file:
+with open('data/raw/drivers_dump.json', 'r') as logs_file:
     print(json.load(logs_file))

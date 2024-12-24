@@ -3,8 +3,8 @@ from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 
 DATE = os.getenv("DATE")
-ODS_PATH = 'system_design_spark/ods/drivers/1d/' + DATE
-DDS_PATH = 'system_design_spark/dds/drivers_hist'
+ODS_PATH = 'data/ods/drivers/1d/' + DATE
+DDS_PATH = 'data/dds/drivers_hist'
 
 SCHEMA = """
     valid_to DATE,

@@ -236,11 +236,11 @@ def generate_orders(n):
 
 
 orders = [order for order in generate_orders(100)]
-with open('system_design_spark/raw/event_log.json', 'w') as logs_file:
+with open('data/raw/event_log.json', 'w') as logs_file:
     str = json.dumps(orders)
     print(str, file=logs_file)
 
-# with open('system_design_spark/raw/event_log.json', 'r') as logs_file:
+# with open('data/raw/event_log.json', 'r') as logs_file:
 #     print(json.load(logs_file))
 
 

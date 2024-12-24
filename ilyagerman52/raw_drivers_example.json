@@ -1,0 +1,12 @@
+[
+  {
+    "id": 124,
+    "info": {
+      "first_name": "name",
+      "last_name": "last_name",
+      "age": 12,
+      "licence_id": "some_hash"
+    },
+    "iso_eventtime": "2024-12-18T13:45:55"
+  }
+]

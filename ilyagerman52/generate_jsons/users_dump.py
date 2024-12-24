@@ -27,9 +27,9 @@ def generate_users(n):
         }
 
 users = [user for user in generate_users(100)]
-with open('system_design_spark/raw/users_dump.json', 'w') as logs_file:
+with open('data/raw/users_dump.json', 'w') as logs_file:
     str = json.dumps(users)
     print(str, file=logs_file)
 
-# with open('system_design_spark/raw/users_dump.json', 'r') as logs_file:
+# with open('data/raw/users_dump.json', 'r') as logs_file:
 #     print(json.load(logs_file))

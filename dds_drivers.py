@@ -3,6 +3,7 @@ import os
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 
+
 SCHEMA = """
     valid_to DATE,
     valid_from DATE,
@@ -28,9 +29,10 @@ DATE = F.to_date(F.lit(DATE_STR), 'yyyy-MM-dd')
 PREV_DATE = F.date_sub(DATE, 1)
 LAST_DATE = F.to_date(F.lit("9999-12-31"), 'yyyy-MM-dd')
 
-ODS_PATH = 'system_design_spark/ods/drivers/1d/' + DATE_STR
-DDS_PREV_PATH = 'system_design_spark/dds/drivers_hist/' + PREV_DATE_STR
-DDS_PATH = 'system_design_spark/dds/drivers_hist/' + DATE_STR
+ODS_PATH = 'data/ods/drivers/1d/' + DATE_STR
+DDS_PREV_PATH = 'data/dds/drivers_hist/' + PREV_DATE_STR
+DDS_PATH = 'data/dds/drivers_hist/' + DATE_STR
+
 
 hist = spark.read.schema(SCHEMA).parquet(DDS_PREV_PATH)
 new_data = spark.read.parquet(ODS_PATH)

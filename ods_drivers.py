@@ -2,11 +2,12 @@ import os
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 
-DATE = os.getenv("DATE")
-RAW_PATH = 'system_design_spark/raw/drivers_dump.json'
-ODS_PATH = 'system_design_spark/ods/drivers/1d/' + DATE
 
-# Создание SparkSession
+DATE = os.getenv("DATE")
+RAW_PATH = 'data/raw/drivers_dump.json'
+ODS_PATH = 'data/ods/drivers/1d/' + DATE
+
+
 spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
     .getOrCreate()
 

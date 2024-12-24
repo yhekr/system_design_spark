@@ -5,8 +5,8 @@ import pyspark.sql.functions as F
 DATE = os.getenv("DATE")
 if DATE is None:
     raise Exception("data ne vistavlena")
-RAW_PATH = 'system_design_spark/raw/event_log.json'
-ODS_PATH = 'system_design_spark/ods/events/1d/' + DATE
+RAW_PATH = 'data/raw/event_log.json'
+ODS_PATH = 'data/ods/events/1d/' + DATE
 
 # Создание SparkSession
 spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
