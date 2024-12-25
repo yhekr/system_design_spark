@@ -9,9 +9,16 @@ def cdm_order(*args, **kwargs):
     spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
         .getOrCreate()
 
+    properties = {
+        "user": "cape",
+        "password": "wlevb14vu4rru3",
+        "driver": "org.postgresql.Driver"
+    }
+    url = "jdbc:postgresql://cape-pg:5432/cape"
 
-    DATE_STR = kwargs['execution_dttm'][:19][:19]
-    DATE = F.to_date(F.lit(DATE_STR), 'yyyy-MM-dd HH:mm:ss')
+    DATE_STR = kwargs['execution_dttm'][:19]
+    print(DATE_STR)
+    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd'T'HH:mm:ss")
 
     DDS_ORDERS = '/opt/airflow/data/dds/fct_orders_act/5m/'
     DDS_DRIVERS = '/opt/airflow/data/dds/drivers_hist/' + DATE_STR
@@ -32,5 +39,9 @@ def cdm_order(*args, **kwargs):
     result \
         .repartition(1) \
         .write.mode("overwrite").parquet(CDM_PATH)
+
+    result \
+        .repartition(1) \
+        .write.jdbc(url=url, table=f"cdm.dm_order.partition_{DATE_STR}", mode="overwrite", properties=properties)
 
     spark.stop()

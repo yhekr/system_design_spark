@@ -43,10 +43,22 @@ x-airflow-common:
       condition: service_healthy
 
 services:
+  cape-pg:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=cape
+      - POSTGRES_PASSWORD=wlevb14vu4rru3
+      - POSTGRES_DB=cape
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: on-failure   
+
   postgres:
     image: postgres_custom
     environment:
-      - POSTGRES_PASSWORD=123
+      - POSTGRES_PASSWORD=wlevb14vu4rru3
       - POSTGRES_MULTIPLE_DATABASES=airflow,airflow,'airflow'
     ports:
       - "5489:5432"
@@ -231,3 +243,6 @@ services:
       - bash
       - -c
       - airflow
+
+volumes:
+  pgdata:

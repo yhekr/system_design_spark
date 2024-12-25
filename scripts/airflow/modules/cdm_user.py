@@ -10,7 +10,7 @@ def cdm_user(*args, **kwargs):
 
 
     DATE_STR = kwargs['execution_dttm'][:19]
-    DATE = F.to_date(F.lit(DATE_STR), 'yyyy-MM-dd HH:mm:ss')
+    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd'T'HH:mm:ss")
 
     DDS_USERS = '/opt/airflow/data/dds/users_hist/' + DATE_STR
     CDM_ORDERS = '/opt/airflow/data/cdm/dm_order/5m/' + DATE_STR

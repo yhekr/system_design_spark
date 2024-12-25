@@ -23,7 +23,7 @@ def ods_users(*args, **kwargs):
             "info.age",
         ) \
         .withColumnRenamed("id", "puid") \
-        .withColumn("msk_dt", F.to_timestamp(F.lit(DATE_STR), "yyyy-MM-dd HH:mm:ss")) \
+        .withColumn("msk_dt", F.to_timestamp(F.lit(DATE_STR), "yyyy-MM-dd'T'HH:mm:ss")) \
         .repartition(1) \
         .write.mode("overwrite").parquet(ODS_PATH)
 
