@@ -4,9 +4,9 @@ import pyspark.sql.functions as F
 
 
 def ods_drivers(*args, **kwargs):
-    DATE = '2024-12-18'
+    DATE_STR = kwargs['execution_dttm'][:19]
     RAW_PATH = '/opt/airflow/data/raw/drivers_dump.json'
-    ODS_PATH = '/opt/airflow/data/ods/drivers/1d/' + DATE
+    ODS_PATH = '/opt/airflow/data/ods/drivers/5m/' + DATE_STR
 
 
     spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
@@ -25,7 +25,7 @@ def ods_drivers(*args, **kwargs):
         ) \
         .withColumnRenamed("id", "driver_id") \
         .withColumnRenamed("license_id", "licence_id") \
-        .withColumn("msk_dt", F.to_date(F.lit(DATE), "yyyy-MM-dd")) \
+        .withColumn("msk_dt", F.to_date(F.lit(DATE_STR), "yyyy-MM-dd")) \
         .repartition(1) \
         .write.mode("overwrite").parquet(ODS_PATH)
 

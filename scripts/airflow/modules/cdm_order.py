@@ -10,12 +10,12 @@ def cdm_order(*args, **kwargs):
         .getOrCreate()
 
 
-    DATE_STR = '2024-12-18'
-    DATE = F.to_date(F.lit(DATE_STR), 'yyyy-MM-dd')
+    DATE_STR = kwargs['execution_dttm'][:19][:19]
+    DATE = F.to_date(F.lit(DATE_STR), 'yyyy-MM-dd HH:mm:ss')
 
-    DDS_ORDERS = '/opt/airflow/data/dds/fct_orders_act/1d/'
+    DDS_ORDERS = '/opt/airflow/data/dds/fct_orders_act/5m/'
     DDS_DRIVERS = '/opt/airflow/data/dds/drivers_hist/' + DATE_STR
-    CDM_PATH = '/opt/airflow/data/cdm/dm_order/1d/' + DATE_STR
+    CDM_PATH = '/opt/airflow/data/cdm/dm_order/5m/' + DATE_STR
 
 
     orders = spark.read.option("recursiveFileLookup", "true").parquet(DDS_ORDERS)

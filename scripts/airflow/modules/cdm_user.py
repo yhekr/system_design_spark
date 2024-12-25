@@ -9,12 +9,12 @@ def cdm_user(*args, **kwargs):
         .getOrCreate()
 
 
-    DATE_STR = '2024-12-18'
-    DATE = F.to_date(F.lit(DATE_STR), 'yyyy-MM-dd')
+    DATE_STR = kwargs['execution_dttm'][:19]
+    DATE = F.to_date(F.lit(DATE_STR), 'yyyy-MM-dd HH:mm:ss')
 
     DDS_USERS = '/opt/airflow/data/dds/users_hist/' + DATE_STR
-    CDM_ORDERS = '/opt/airflow/data/cdm/dm_order/1d/' + DATE_STR
-    CDM_USERS = '/opt/airflow/data/cdm/dm_user/1d/' + DATE_STR
+    CDM_ORDERS = '/opt/airflow/data/cdm/dm_order/5m/' + DATE_STR
+    CDM_USERS = '/opt/airflow/data/cdm/dm_user/5m/' + DATE_STR
 
 
     users_act = spark.read.parquet(DDS_USERS) \

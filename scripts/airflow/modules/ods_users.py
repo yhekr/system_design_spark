@@ -4,9 +4,9 @@ import pyspark.sql.functions as F
 
 
 def ods_users(*args, **kwargs):
-    DATE = '2024-12-18'
+    DATE_STR = kwargs['execution_dttm'][:19]
     RAW_PATH = '/opt/airflow/data/raw/users_dump.json'
-    ODS_PATH = '/opt/airflow/data/ods/users/1d/' + DATE
+    ODS_PATH = '/opt/airflow/data/ods/users/5m/' + DATE_STR
 
 
     spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
@@ -23,7 +23,7 @@ def ods_users(*args, **kwargs):
             "info.age",
         ) \
         .withColumnRenamed("id", "puid") \
-        .withColumn("msk_dt", F.to_date(F.lit(DATE), "yyyy-MM-dd")) \
+        .withColumn("msk_dt", F.to_timestamp(F.lit(DATE_STR), "yyyy-MM-dd HH:mm:ss")) \
         .repartition(1) \
         .write.mode("overwrite").parquet(ODS_PATH)
 

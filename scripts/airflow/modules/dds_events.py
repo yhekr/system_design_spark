@@ -8,10 +8,10 @@ def dds_events(*args, **kwargs):
         .getOrCreate()
 
 
-    DATE_STR = '2024-12-18'
+    DATE_STR = kwargs['execution_dttm'][:19]
 
-    ODS_PATH = '/opt/airflow/data/ods/events/1d/' + DATE_STR
-    DDS_PATH = '/opt/airflow/data/dds/fct_orders_act/1d/' + DATE_STR
+    ODS_PATH = '/opt/airflow/data/ods/events/5m/' + DATE_STR
+    DDS_PATH = '/opt/airflow/data/dds/fct_orders_act/5m/' + DATE_STR
 
 
     events = spark.read.parquet(ODS_PATH)

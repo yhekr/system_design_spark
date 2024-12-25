@@ -1,11 +1,13 @@
+from datetime import timedelta
+import os
+import sys
+
 from airflow import DAG
 from airflow.utils import timezone
 from airflow.utils.dag_parsing_context import get_parsing_context
 from airflow.operators.python import PythonOperator, ShortCircuitOperator
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow.operators.dummy_operator import DummyOperator
-import os
-import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
@@ -24,70 +26,86 @@ with DAG(
     catchup=False,
     tags=["main_workflow"],
     start_date=timezone.parse("1970-1-1 00", 'Europe/Moscow'),
-    schedule=None
+    schedule_interval='*/5 * * * *',
 ) as dag:
     cdm_order_task = PythonOperator(
         task_id='cdm_order_task',
         dag=dag,
         python_callable=cdm_order,
-        op_kwargs={},
-        show_return_value_in_logs=False,
+        op_kwargs={'execution_dttm': "{{ ts }}"},
+        provide_context=True,
+        retries=3,
+        retry_delay=timedelta(minutes=2),
     )
 
     cdm_user_task = PythonOperator(
         task_id='cdm_user_task',
         dag=dag,
         python_callable=cdm_user,
-        op_kwargs={},
-        show_return_value_in_logs=False,
+        op_kwargs={'execution_dttm': "{{ ts }}"},
+        provide_context=True,
+        retries=3,
+        retry_delay=timedelta(minutes=2),
     )
 
     dds_drivers_task = PythonOperator(
         task_id='dds_drivers_task',
         dag=dag,
         python_callable=dds_drivers,
-        op_kwargs={},
-        show_return_value_in_logs=False,
+        op_kwargs={'execution_dttm': "{{ ts }}"},
+        provide_context=True,
+        retries=3,
+        retry_delay=timedelta(minutes=2),
     )
 
     dds_events_task = PythonOperator(
         task_id='dds_events_task',
         dag=dag,
         python_callable=dds_events,
-        op_kwargs={},
-        show_return_value_in_logs=False,
+        op_kwargs={'execution_dttm': "{{ ts }}"},
+        provide_context=True,
+        retries=3,
+        retry_delay=timedelta(minutes=2),
     )
 
     dds_users_task = PythonOperator(
         task_id='dds_users_task',
         dag=dag,
         python_callable=dds_users,
-        op_kwargs={},
-        show_return_value_in_logs=False,
+        op_kwargs={'execution_dttm': "{{ ts }}"},
+        provide_context=True,
+        retries=3,
+        retry_delay=timedelta(minutes=2),
     )
 
     ods_drivers_task = PythonOperator(
         task_id='ods_drivers_task',
         dag=dag,
         python_callable=ods_drivers,
-        op_kwargs={},
-        show_return_value_in_logs=False,
+        op_kwargs={'execution_dttm': "{{ ts }}"},
+        provide_context=True,
+        retries=3,
+        retry_delay=timedelta(minutes=2),
     )
 
     ods_event_log_task = PythonOperator(
         task_id='ods_event_log_task',
         dag=dag,
         python_callable=ods_event_log,
-        op_kwargs={},
-        show_return_value_in_logs=False,
+        op_kwargs={'execution_dttm': "{{ ts }}"},
+        provide_context=True,
+        retries=3,
+        retry_delay=timedelta(minutes=2),
     )
 
     ods_users_task = PythonOperator(
         task_id='ods_users_task',
         dag=dag,
         python_callable=ods_users,
-        op_kwargs={},
-        show_return_value_in_logs=False,
+        op_kwargs={'execution_dttm': "{{ ts }}"},
+        provide_context=True,
+        retries=3,
+        retry_delay=timedelta(minutes=2),
     )
 
     ods_event_log_task >> dds_events_task
