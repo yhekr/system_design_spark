@@ -29,7 +29,9 @@ def generate_devices(n):
             },
         }
 
-devices = [device for device in generate_devices(100)]
-with open('data/raw/devices_dump.json', 'w') as logs_file:
-    str = json.dumps(devices)
-    print(str, file=logs_file)
+
+def devices_dump(**kwargs):
+    devices = [device for device in generate_devices(100)]
+    with open('/opt/airflow/data/raw/devices_dump.json', 'w') as logs_file:
+        str = json.dumps(devices)
+        print(str, file=logs_file)

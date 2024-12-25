@@ -42,7 +42,7 @@ def generate_orders(n):
 
         # отмена, потому что долго водителя ищем
         if random.random() < 0.1:
-            time_increment = random.randint(0, 300)
+            time_increment = random.randint(1, 3)
             actual_date = actual_date + timedelta(seconds=time_increment)
             actual_ts = int(actual_date.timestamp())
             actual_iso_eventtime = actual_date.isoformat()
@@ -76,7 +76,7 @@ def generate_orders(n):
         # назначаем водителя
         else:
             driver_id = f"d{i}"
-            time_increment = random.randint(0, 300)
+            time_increment = random.randint(1, 3)
             actual_date = actual_date + timedelta(seconds=time_increment)
             actual_ts = int(actual_date.timestamp())
             actual_iso_eventtime = actual_date.isoformat()
@@ -106,7 +106,7 @@ def generate_orders(n):
 
             # отмена, потому что водитель не понравился
             if random.random() < 0.13:
-                time_increment = random.randint(0, 300)
+                time_increment = random.randint(1, 3)
                 actual_date = actual_date + timedelta(seconds=time_increment)
                 actual_ts = int(actual_date.timestamp())
                 actual_iso_eventtime = actual_date.isoformat()
@@ -141,7 +141,7 @@ def generate_orders(n):
             
             # стартуем поездку
             else:
-                time_increment = random.randint(60, 600)
+                time_increment = random.randint(1, 3)
                 actual_date = actual_date + timedelta(seconds=time_increment)
                 actual_ts = int(actual_date.timestamp())
                 actual_iso_eventtime = actual_date.isoformat()
@@ -171,7 +171,7 @@ def generate_orders(n):
 
                 # заказ отменили в процессе
                 if random.random() < 0.05:
-                    time_increment = random.randint(60, 600)
+                    time_increment = random.randint(1, 3)
                     actual_date = actual_date + timedelta(seconds=time_increment)
                     actual_ts = int(actual_date.timestamp())
                     actual_iso_eventtime = actual_date.isoformat()
@@ -206,7 +206,7 @@ def generate_orders(n):
                 
                 # деливеред
                 else:
-                    time_increment = random.randint(60, 600)
+                    time_increment = random.randint(1, 3)
                     actual_date = actual_date + timedelta(seconds=time_increment)
                     actual_ts = int(actual_date.timestamp())
                     actual_iso_eventtime = actual_date.isoformat()
@@ -235,10 +235,13 @@ def generate_orders(n):
                     }
 
 
-orders = [order for order in generate_orders(100)]
-with open('data/raw/event_log.json', 'w') as logs_file:
-    str = json.dumps(orders)
-    print(str, file=logs_file)
+def event_logs(**kwargs):
+    DATE_STR = kwargs['execution_dttm'][:19]
+
+    orders = [order for order in generate_orders(1000)]
+    with open(f'/opt/airflow/data/raw/5m/{DATE_STR}.json', 'w') as logs_file:
+        str = json.dumps(orders)
+        print(str, file=logs_file)
 
 # with open('data/raw/event_log.json', 'r') as logs_file:
 #     print(json.load(logs_file))

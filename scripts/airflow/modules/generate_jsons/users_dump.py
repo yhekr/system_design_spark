@@ -6,10 +6,11 @@ USERS = [
     'Соколов Евгений',
     'Трушин Дима',
     'Аржанцев Иван',
+    'Алексей Сальников'
 ]
 
 def generate_users(n):
-    date = "2024-12-18"
+    ts = datetime.now()
     for user_id in range(1, n + 1):
         age = random.randint(12, 80)
         last_name, first_name = random.choice(USERS).split()
@@ -21,13 +22,15 @@ def generate_users(n):
                 "last_name": last_name,
                 "age": age
             },
-            "iso_eventtime": f"{date}T00:00:00"
+            "iso_eventtime": ts.isoformat()
         }
 
-users = [user for user in generate_users(100)]
-with open('data/raw/users_dump.json', 'w') as logs_file:
-    str = json.dumps(users)
-    print(str, file=logs_file)
+
+def users_dump(**kwargs):
+    users = [user for user in generate_users(1000)]
+    with open('data/raw/users_dump.json', 'w') as logs_file:
+        str = json.dumps(users)
+        print(str, file=logs_file)
 
 # with open('data/raw/users_dump.json', 'r') as logs_file:
 #     print(json.load(logs_file))

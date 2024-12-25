@@ -31,10 +31,12 @@ def generate_drivers(n):
             "iso_eventtime": f"{date}T00:00:00"
         }
 
-drivers = [driver for driver in generate_drivers(100)]
-with open('data/raw/drivers_dump.json', 'w') as logs_file:
-    str = json.dumps(drivers)
-    print(str, file=logs_file)
 
-with open('data/raw/drivers_dump.json', 'r') as logs_file:
-    print(json.load(logs_file))
+def drivers_dump(**kwargs):
+    drivers = [driver for driver in generate_drivers(100)]
+    with open('/opt/airflow/data/raw/drivers_dump.json', 'w') as logs_file:
+        str = json.dumps(drivers)
+        print(str, file=logs_file)
+
+# with open('data/raw/drivers_dump.json', 'r') as logs_file:
+#     print(json.load(logs_file))
