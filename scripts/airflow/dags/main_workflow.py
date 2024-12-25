@@ -17,9 +17,11 @@ from modules.cdm_user import cdm_user
 from modules.dds_drivers import dds_drivers
 from modules.dds_events import dds_events
 from modules.dds_users import dds_users
+from modules.dds_devices import dds_devices
 from modules.ods_drivers import ods_drivers
 from modules.ods_event_log import ods_event_log
 from modules.ods_users import ods_users
+from modules.ods_currencies import ods_currencies
 
 # from modules.generate_jsons.devices_dump import devices_dump
 from modules.generate_jsons.users_dump import users_dump
@@ -83,6 +85,16 @@ with DAG(
         retry_delay=timedelta(minutes=2),
     )
 
+    dds_devices_task = PythonOperator(
+        task_id='dds_devices_task',
+        dag=dag,
+        python_callable=dds_devices,
+        op_kwargs={'execution_dttm': "{{ ts }}"},
+        provide_context=True,
+        retries=3,
+        retry_delay=timedelta(minutes=2),
+    )
+
     ods_drivers_task = PythonOperator(
         task_id='ods_drivers_task',
         dag=dag,
@@ -107,6 +119,16 @@ with DAG(
         task_id='ods_users_task',
         dag=dag,
         python_callable=ods_users,
+        op_kwargs={'execution_dttm': "{{ ts }}"},
+        provide_context=True,
+        retries=3,
+        retry_delay=timedelta(minutes=2),
+    )
+
+    ods_currencies_task = PythonOperator(
+        task_id='ods_currencies_task',
+        dag=dag,
+        python_callable=ods_currencies,
         op_kwargs={'execution_dttm': "{{ ts }}"},
         provide_context=True,
         retries=3,
