@@ -21,16 +21,17 @@ def dds_drivers(*args, **kwargs):
         .getOrCreate()
 
 
-    DATE_STR = kwargs['execution_dttm'][:19]
+    DATE_STR = kwargs['execution_date']
     current_date = datetime.datetime.strptime(DATE_STR, '%Y-%m-%d')
     prev_date = current_date - datetime.timedelta(days=1)
     PREV_DATE_STR = prev_date.strftime('%Y-%m-%d')
 
-    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd'T'HH:mm:ss")
-    PREV_DATE = F.date_sub(DATE, 1)
-    LAST_DATE = F.to_date(F.lit("9999-12-31"), "yyyy-MM-dd'T'HH:mm:ss")
+    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd")
+    # PREV_DATE = F.date_sub(DATE, 1)
+    PREV_DATE = DATE - F.expr("INTERVAL 1 DAY")
+    LAST_DATE = F.to_date(F.lit("9999-12-31"), "yyyy-MM-dd")
 
-    ODS_PATH = '/opt/airflow/data/ods/drivers/5m/' + DATE_STR
+    ODS_PATH = '/opt/airflow/data/ods/drivers/1d/' + DATE_STR
     DDS_PREV_PATH = '/opt/airflow/data/dds/drivers_hist/' + PREV_DATE_STR
     DDS_PATH = '/opt/airflow/data/dds/drivers_hist/' + DATE_STR
 

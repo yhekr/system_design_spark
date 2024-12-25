@@ -6,15 +6,22 @@ import pyspark.sql.functions as F
 def cdm_user(*args, **kwargs):
     # Создание SparkSession
     spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
+        .config("spark.jars", "/opt/airflow/plugins/postgresql-42.2.18.jar") \
         .getOrCreate()
 
+    properties = {
+        "user": "cape",
+        "password": "wlevb14vu4rru3",
+        "driver": "org.postgresql.Driver"
+    }
+    url = "jdbc:postgresql://cape-pg:5432/cape"
 
-    DATE_STR = kwargs['execution_dttm'][:19]
-    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd'T'HH:mm:ss")
+    DATE_STR = kwargs['execution_date'][:19]
+    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd")
 
     DDS_USERS = '/opt/airflow/data/dds/users_hist/' + DATE_STR
-    CDM_ORDERS = '/opt/airflow/data/cdm/dm_order/5m/' + DATE_STR
-    CDM_USERS = '/opt/airflow/data/cdm/dm_user/5m/' + DATE_STR
+    CDM_ORDERS = '/opt/airflow/data/cdm/dm_order/1d/' + DATE_STR
+    CDM_USERS = '/opt/airflow/data/cdm/dm_user/1d/' + DATE_STR
 
 
     users_act = spark.read.parquet(DDS_USERS) \
@@ -66,9 +73,13 @@ def cdm_user(*args, **kwargs):
             ).otherwise(None)
         )
 
-    users_act \
+    result =users_act \
         .join(orders, "puid", "left") \
-        .repartition(1) \
+    
+    result.repartition(1) \
         .write.mode("overwrite").parquet(CDM_USERS)
+
+    # result.repartition(1) \
+    #     .write.jdbc(url=url, table=f"cdm.dm_users.partition_{DATE_STR}", mode="overwrite", properties=properties)
 
     spark.stop()

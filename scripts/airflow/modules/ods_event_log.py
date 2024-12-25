@@ -4,9 +4,9 @@ import pyspark.sql.functions as F
 
 
 def ods_event_log(*args, **kwargs):
-    DATE_STR = kwargs['execution_dttm'][:19]
+    DATE_STR = kwargs['execution_date'][:19]
     RAW_PATH = '/opt/airflow/data/raw/event_log.json'
-    ODS_PATH = '/opt/airflow/data/ods/events/5m/' + DATE_STR
+    ODS_PATH = '/opt/airflow/data/ods/events/1d/' + DATE_STR
 
 
     spark = SparkSession.builder.master("local").appName("ods_event_log") \

@@ -1,13 +1,13 @@
 raw/*
 *.pyc
 
-ods/drivers/5m/*
-ods/users/5m/*
-ods/events/5m/*
+ods/drivers/1d/*
+ods/users/1d/*
+ods/events/1d/*
 
 dds/drivers_hist/*
 dds/users_hist/*
-dds/fct_orders_act/5m/*
+dds/fct_orders_act/1d/*
 
 cdm/dm_order/*
 cdm/dm_user/*

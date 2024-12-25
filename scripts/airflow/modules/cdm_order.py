@@ -7,6 +7,7 @@ from pyspark.sql.window import Window
 def cdm_order(*args, **kwargs):
     # Создание SparkSession
     spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
+        .config("spark.jars", "/opt/airflow/plugins/postgresql-42.2.18.jar") \
         .getOrCreate()
 
     properties = {
@@ -16,13 +17,12 @@ def cdm_order(*args, **kwargs):
     }
     url = "jdbc:postgresql://cape-pg:5432/cape"
 
-    DATE_STR = kwargs['execution_dttm'][:19]
-    print(DATE_STR)
-    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd'T'HH:mm:ss")
+    DATE_STR = kwargs['execution_date']
+    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd")
 
-    DDS_ORDERS = '/opt/airflow/data/dds/fct_orders_act/5m/'
+    DDS_ORDERS = '/opt/airflow/data/dds/fct_orders_act/1d/'
     DDS_DRIVERS = '/opt/airflow/data/dds/drivers_hist/' + DATE_STR
-    CDM_PATH = '/opt/airflow/data/cdm/dm_order/5m/' + DATE_STR
+    CDM_PATH = '/opt/airflow/data/cdm/dm_order/1d/' + DATE_STR
 
 
     orders = spark.read.option("recursiveFileLookup", "true").parquet(DDS_ORDERS)

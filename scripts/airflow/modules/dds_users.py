@@ -19,16 +19,17 @@ def dds_users(*args, **kwargs):
         .getOrCreate()
 
 
-    DATE_STR = kwargs['execution_dttm'][:19]
+    DATE_STR = kwargs['execution_date'][:19]
     current_date = datetime.datetime.strptime(DATE_STR, '%Y-%m-%d')
     prev_date = current_date - datetime.timedelta(days=1)
     PREV_DATE_STR = prev_date.strftime('%Y-%m-%d')
 
-    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd'T'HH:mm:ss")
-    PREV_DATE = F.date_sub(DATE, 1)
-    LAST_DATE = F.to_date(F.lit("9999-12-31"), "yyyy-MM-dd'T'HH:mm:ss")
+    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd")
+    # PREV_DATE = F.date_sub(DATE, 1)
+    PREV_DATE = DATE - F.expr("INTERVAL 1 DAY")
+    LAST_DATE = F.to_date(F.lit("9999-12-31"), "yyyy-MM-dd")
 
-    ODS_PATH = '/opt/airflow/data/ods/users/5m/' + DATE_STR
+    ODS_PATH = '/opt/airflow/data/ods/users/1d/' + DATE_STR
     DDS_PREV_PATH = '/opt/airflow/data/dds/users_hist/' + PREV_DATE_STR
     DDS_PATH = '/opt/airflow/data/dds/users_hist/' + DATE_STR
 
