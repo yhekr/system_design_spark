@@ -139,46 +139,46 @@ with DAG(
     #     task_id='devices_dump_task',
     #     dag=dag,
     #     python_callable=devices_dump,
-    #     op_kwargs={'execution_dttm': "{{ ts }}"},
+    #     op_kwargs={'execution_date': "{{ ts }}"},
     #     provide_context=True,
     #     retries=3,
     #     retry_delay=timedelta(minutes=2),
     # )
 
-    drivers_dump_task = PythonOperator(
-        task_id='drivers_dump_task',
-        dag=dag,
-        python_callable=drivers_dump,
-        op_kwargs={'execution_dttm': "{{ ts }}"},
-        provide_context=True,
-        retries=3,
-        retry_delay=timedelta(minutes=2),
-    )
+    # drivers_dump_task = PythonOperator(
+    #     task_id='drivers_dump_task',
+    #     dag=dag,
+    #     python_callable=drivers_dump,
+    #     op_kwargs={'execution_date': "{{ ts }}"},
+    #     provide_context=True,
+    #     retries=3,
+    #     retry_delay=timedelta(minutes=2),
+    # )
 
-    users_dump_task = PythonOperator(
-        task_id='users_dump_task',
-        dag=dag,
-        python_callable=users_dump,
-        op_kwargs={'execution_dttm': "{{ ts }}"},
-        provide_context=True,
-        retries=3,
-        retry_delay=timedelta(minutes=2),
-    )
+    # users_dump_task = PythonOperator(
+    #     task_id='users_dump_task',
+    #     dag=dag,
+    #     python_callable=users_dump,
+    #     op_kwargs={'execution_date': "{{ ts }}"},
+    #     provide_context=True,
+    #     retries=3,
+    #     retry_delay=timedelta(minutes=2),
+    # )
 
-    generate_event_logs_task = PythonOperator(
-        task_id='generate_event_logs_task',
-        dag=dag,
-        python_callable=event_logs,
-        op_kwargs={'execution_dttm': "{{ ts }}"},
-        provide_context=True,
-        retries=3,
-        retry_delay=timedelta(minutes=2),
-    )
+    # generate_event_logs_task = PythonOperator(
+    #     task_id='generate_event_logs_task',
+    #     dag=dag,
+    #     python_callable=event_logs,
+    #     op_kwargs={'execution_date': "{{ ts }}"},
+    #     provide_context=True,
+    #     retries=3,
+    #     retry_delay=timedelta(minutes=2),
+    # )
 
-    generate_event_logs_task >> ods_event_log_task >> dds_events_task
-    drivers_dump_task >> ods_drivers_task >> dds_drivers_task
-    users_dump_task >> ods_users_task >> dds_users_task
+    ods_event_log_task >> dds_events_task
+    ods_drivers_task >> dds_drivers_task
+    ods_users_task >> dds_users_task
 
-    [dds_events_task, dds_drivers_task, dds_users_task] >> cdm_order_task
+    [dds_events_task, dds_drivers_task] >> cdm_order_task
 
     [dds_users_task, cdm_order_task] >> cdm_user_task

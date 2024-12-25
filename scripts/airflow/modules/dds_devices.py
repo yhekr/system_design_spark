@@ -11,14 +11,18 @@ def dds_devices(*args, **kwargs):
         platform STRING,
         version LONG,
     """
-
-
-    # Создание SparkSession
     spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
+        .config("spark.jars", "/opt/airflow/plugins/postgresql-42.2.18.jar") \
         .getOrCreate()
 
+    properties = {
+        "user": "cape",
+        "password": "wlevb14vu4rru3",
+        "driver": "org.postgresql.Driver"
+    }
+    url = "jdbc:postgresql://cape-pg:5432/cape"
 
-    DATE_STR = kwargs['execution_dttm'][:19]
+    DATE_STR = kwargs['execution_date'][:19]
     current_date = datetime.datetime.strptime(DATE_STR, '%Y-%m-%d')
     prev_date = current_date - datetime.timedelta(days=1)
     PREV_DATE_STR = prev_date.strftime('%Y-%m-%d')
@@ -31,8 +35,11 @@ def dds_devices(*args, **kwargs):
     DDS_PREV_PATH = '/opt/airflow/data/dds/devices_hist/' + PREV_DATE_STR
     DDS_PATH = '/opt/airflow/data/dds/devices_hist/' + DATE_STR
 
+    try:
+        hist = spark.read.schema(SCHEMA).parquet(DDS_PREV_PATH)
+    except Exception:
+        hist = spark.createDataFrame([], SCHEMA)
 
-    hist = spark.read.schema(SCHEMA).parquet(DDS_PREV_PATH)
     new_data = spark.read.parquet(ODS_PATH)
 
     updated_hist = hist.alias("h") \

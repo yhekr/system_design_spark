@@ -5,7 +5,6 @@ from pyspark.sql.window import Window
 
 
 def cdm_order(*args, **kwargs):
-    # Создание SparkSession
     spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
         .config("spark.jars", "/opt/airflow/plugins/postgresql-42.2.18.jar") \
         .getOrCreate()
@@ -18,7 +17,6 @@ def cdm_order(*args, **kwargs):
     url = "jdbc:postgresql://cape-pg:5432/cape"
 
     DATE_STR = kwargs['execution_date']
-    DATE = F.to_date(F.lit(DATE_STR), "yyyy-MM-dd")
 
     DDS_ORDERS = '/opt/airflow/data/dds/fct_orders_act/1d/'
     DDS_DRIVERS = '/opt/airflow/data/dds/drivers_hist/' + DATE_STR
@@ -42,6 +40,6 @@ def cdm_order(*args, **kwargs):
 
     result \
         .repartition(1) \
-        .write.jdbc(url=url, table=f"cdm.dm_order.partition_{DATE_STR}", mode="overwrite", properties=properties)
+        .write.jdbc(url=url, table=f"cdm_dm_order_partition_{DATE_STR.replace('-', '_')}", mode="overwrite", properties=properties)
 
     spark.stop()

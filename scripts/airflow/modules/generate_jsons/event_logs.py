@@ -236,10 +236,10 @@ def generate_orders(n):
 
 
 def event_logs(**kwargs):
-    DATE_STR = kwargs['execution_dttm'][:19]
+    DATE_STR = kwargs['execution_date']
 
     orders = [order for order in generate_orders(1000)]
-    with open(f'/opt/airflow/data/raw/5m/{DATE_STR}.json', 'w') as logs_file:
+    with open(f'/opt/airflow/data/raw/event_logs/1d/{DATE_STR}.json', 'w') as logs_file:
         str = json.dumps(orders)
         print(str, file=logs_file)
 

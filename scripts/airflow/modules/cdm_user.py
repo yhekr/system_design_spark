@@ -4,7 +4,6 @@ import pyspark.sql.functions as F
 
 
 def cdm_user(*args, **kwargs):
-    # Создание SparkSession
     spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
         .config("spark.jars", "/opt/airflow/plugins/postgresql-42.2.18.jar") \
         .getOrCreate()
@@ -79,7 +78,7 @@ def cdm_user(*args, **kwargs):
     result.repartition(1) \
         .write.mode("overwrite").parquet(CDM_USERS)
 
-    # result.repartition(1) \
-    #     .write.jdbc(url=url, table=f"cdm.dm_users.partition_{DATE_STR}", mode="overwrite", properties=properties)
+    result.repartition(1) \
+        .write.jdbc(url=url, table=f"cdm_dm_users_partition_{DATE_STR.replace('-', '_')}", mode="overwrite", properties=properties)
 
     spark.stop()

@@ -5,8 +5,15 @@ import pyspark.sql.functions as F
 
 def dds_events(*args, **kwargs):
     spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
+        .config("spark.jars", "/opt/airflow/plugins/postgresql-42.2.18.jar") \
         .getOrCreate()
 
+    properties = {
+        "user": "cape",
+        "password": "wlevb14vu4rru3",
+        "driver": "org.postgresql.Driver"
+    }
+    url = "jdbc:postgresql://cape-pg:5432/cape"
 
     DATE_STR = kwargs['execution_date'][:19]
 
@@ -43,5 +50,10 @@ def dds_events(*args, **kwargs):
     result \
         .repartition(1) \
         .write.mode("overwrite").parquet(DDS_PATH)
+
+    result \
+        .repartition(1) \
+        .write.jdbc(url=url, table=f"dds_orders_partition_{DATE_STR.replace('-', '_')}", mode="overwrite", properties=properties)
+
 
     spark.stop()

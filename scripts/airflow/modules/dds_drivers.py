@@ -15,11 +15,16 @@ def dds_drivers(*args, **kwargs):
         licence_id STRING
     """
 
-
-    # Создание SparkSession
     spark = SparkSession.builder.master("local").appName("ETL_Pipeline") \
+        .config("spark.jars", "/opt/airflow/plugins/postgresql-42.2.18.jar") \
         .getOrCreate()
 
+    properties = {
+        "user": "cape",
+        "password": "wlevb14vu4rru3",
+        "driver": "org.postgresql.Driver"
+    }
+    url = "jdbc:postgresql://cape-pg:5432/cape"
 
     DATE_STR = kwargs['execution_date']
     current_date = datetime.datetime.strptime(DATE_STR, '%Y-%m-%d')
@@ -35,8 +40,10 @@ def dds_drivers(*args, **kwargs):
     DDS_PREV_PATH = '/opt/airflow/data/dds/drivers_hist/' + PREV_DATE_STR
     DDS_PATH = '/opt/airflow/data/dds/drivers_hist/' + DATE_STR
 
-
-    hist = spark.read.schema(SCHEMA).parquet(DDS_PREV_PATH)
+    try:
+        hist = spark.read.schema(SCHEMA).parquet(DDS_PREV_PATH)
+    except Exception:
+        hist = spark.createDataFrame([], SCHEMA)
     new_data = spark.read.parquet(ODS_PATH)
 
     updated_hist = hist.alias("h") \
@@ -72,7 +79,13 @@ def dds_drivers(*args, **kwargs):
     result = changed \
         .union(new_rows) \
         .sort(["valid_to", "valid_from", "driver_id"]) \
-        .repartition(1) \
+    
+    result.repartition(1) \
         .write.mode("overwrite").parquet(DDS_PATH)
+
+    result \
+        .repartition(1) \
+        .write.jdbc(url=url, table=f"dds_drivers_partition_{DATE_STR.replace('-', '_')}", mode="overwrite", properties=properties)
+
 
     spark.stop()

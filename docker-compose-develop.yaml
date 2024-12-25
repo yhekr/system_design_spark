@@ -33,7 +33,7 @@ x-airflow-common:
     - ./scripts/airflow/dags:/opt/airflow/dags
     - ./scripts/airflow/plugins:/opt/airflow/plugins
     - ./scripts/airflow/modules:/opt/airflow/modules
-    - ./data:/opt/airflow/data
+    # - ./data:/opt/airflow/data
     # - ./airflow_services/config.sh:/opt/airflow/config.sh
     # - ./airflow_services/config.py:/opt/airflow/config.py
   user: "${AIRFLOW_UID:-50000}:0"
