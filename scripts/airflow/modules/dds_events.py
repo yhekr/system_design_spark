@@ -29,6 +29,7 @@ def dds_events(*args, **kwargs):
             F.max("puid").alias("puid"),
             F.max("driver_id").alias("driver_id"),
             F.max("device_id").alias("device_id"),
+            F.max("region_id").alias("region_id"),
 
             F.max(F.when(F.col("event_type") == "order_created", F.col("cost")), ).alias("cost_lcl"),
             F.max(F.when(F.col("event_type") == "order_created", F.col("currency"))).alias("currency"),
