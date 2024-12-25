@@ -85,15 +85,15 @@ with DAG(
         retry_delay=timedelta(minutes=2),
     )
 
-    dds_devices_task = PythonOperator(
-        task_id='dds_devices_task',
-        dag=dag,
-        python_callable=dds_devices,
-        op_kwargs={'execution_dttm': "{{ ts }}"},
-        provide_context=True,
-        retries=3,
-        retry_delay=timedelta(minutes=2),
-    )
+    # dds_devices_task = PythonOperator(
+    #     task_id='dds_devices_task',
+    #     dag=dag,
+    #     python_callable=dds_devices,
+    #     op_kwargs={'execution_dttm': "{{ ts }}"},
+    #     provide_context=True,
+    #     retries=3,
+    #     retry_delay=timedelta(minutes=2),
+    # )
 
     ods_drivers_task = PythonOperator(
         task_id='ods_drivers_task',
@@ -125,15 +125,15 @@ with DAG(
         retry_delay=timedelta(minutes=2),
     )
 
-    ods_currencies_task = PythonOperator(
-        task_id='ods_currencies_task',
-        dag=dag,
-        python_callable=ods_currencies,
-        op_kwargs={'execution_dttm': "{{ ts }}"},
-        provide_context=True,
-        retries=3,
-        retry_delay=timedelta(minutes=2),
-    )
+    # ods_currencies_task = PythonOperator(
+    #     task_id='ods_currencies_task',
+    #     dag=dag,
+    #     python_callable=ods_currencies,
+    #     op_kwargs={'execution_dttm': "{{ ts }}"},
+    #     provide_context=True,
+    #     retries=3,
+    #     retry_delay=timedelta(minutes=2),
+    # )
 
     # devices_dump_task = PythonOperator(
     #     task_id='devices_dump_task',
