@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 
 
-def ods_drivers(*args, **kwargs):
+def ods_currencies(*args, **kwargs):
     DATE_STR = kwargs['execution_dttm'][:19]
     RAW_PATH = '/opt/airflow/data/raw/currencies_dump.json'
     ODS_PATH = '/opt/airflow/data/ods/currencies/1d/' + DATE_STR
